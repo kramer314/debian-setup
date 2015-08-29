@@ -1,0 +1,145 @@
+Copyright (c) 2015 Alex Kramer <kramer.alex.kramer@gmail.com>
+See the LICENSE.txt file at the top-level directory of this distribution.
+
+Overview
+========
+
+This guide covers my installation procedure for Debian 8.1 unstable,
+with the end goal of creating a fully functional general-purpose
+system that is also suitable for development work. This assumes that a
+basic Debian 8.1 install has already been completed (I typically use
+the Debian XFCE image for this).
+
+This guide is up to date as of August 2015, using Debian 8.1.
+
+Upgrade to unstable (Sid)
+=========================
+
+Edit `/etc/apt/sources.list`:
+* Comment out all lines
+* Add:
+
+  deb http://ftp.us.debian.org/debian/ unstable main contrib non-free
+  deb-src http://ftp.us.debian.org/debian unstable main contrib non-free
+
+Run:
+
+  apt-get update
+  apt-get upgrade
+  apt-get dist-upgrade
+
+Install the following packages:
+
+  apt-listbugs apt-listchanges
+
+to be warned about breaking changes / bugs when upgrading.
+
+More information on running Sid can be found at
+https://wiki.debian.org/DebianUnstable
+
+Software Packages
+=================
+* Quality of life
+
+  pavucontrol
+  flashplugin-nonferee
+  msttcorefonts
+  pwgen
+  arandr
+  pidgin
+  gparted
+  pdftk
+  pithos
+  htop
+  transmission
+  iotop
+  nethogs
+  clamav / clamtk
+  laptop-mode-tools
+
+* Numerical software
+  libatlas3-base libopenblas-base
+  gfortran
+  octave
+  r-base r-base-dev r-recommended
+  python3-pip python3-nose
+  python3-numpy python3-scipy python3-matplotlib
+  python3-pandas python3-sympy
+  ipython3
+
+* Development
+
+  emacs
+  git
+  gitg
+  meld
+  mercurial
+  geany
+  texlive-full
+  scons
+
+* Personal
+
+  gimp
+  inkscape
+  darktable
+  icedove
+
+* Performance
+
+  tlp tlp-rdw tp-smapi-dkms acpi-call-dkms
+
+  Note that the last two packages above are primarily for Lenovo
+  ThinkPad machines.
+
+* Non-repository software to compile / install:
+
+  Skype (http://www.skype.com)
+  Chrome (http://google.com/chrome)
+  Google Voice (http://www.google.com/intl/en/chat/voice/)
+  Sage (http://www.sagemath.org)
+  RawStudio (http://rawstudio.org)
+  Steam (http://www.steampowered.org)
+
+Software-specific notes
+=======================
+
+Spotify:
+* https://www.spotify.com/us/download/linux/
+* requires libgcrypt11-dev:
+
+  See
+  http://linuxconfig.org/installation-of-spotify-client-on-debian-linux-8-jessie-64-bit
+  for more details
+
+Firefox / Iceweasel addons:
+* NoScript
+* uBlock Origin
+* Reddit Enhancement Suite
+
+Firefox / Iceweasal about:config changes:
+* Built in tracking protection:
+  privacy.trackingprotection.enabled --> True
+* Reduce Javascript memory consumption:
+  javascript.options.mem.max --> 51200 (50 MB, default = -1)
+  javascript.options.mem.high_water_mark --> 30 (30 MB, default = 128)
+* Cap memory used by decoded images:
+  image.mem.max_decoded_image_kb --> 51200 (50 MB, default = 256000)
+
+Thunderbird / Icedove addons:
+* Lightning
+* ExQuilla
+
+Google Chrome addons:
+* uBlock Origin
+* Reddit Enhancement Suite
+
+Other
+=====
+
+Disable PC speaker beep:
+
+echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
+
+Note on pithos, if pulseaudio doesn't detect pithos as an audio sink;
+see https://github.com/pithos/pithos/wiki/Installing-from-Source

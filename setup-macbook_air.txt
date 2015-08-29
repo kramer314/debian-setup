@@ -1,0 +1,83 @@
+Copyright (c) 2015 Alex Kramer <kramer.alex.kramer@gmail.com>
+See the LICENSE.txt file at the top-level directory of this distribution.
+
+Overview
+========
+
+This guide covers installation of Debian 8.1 on a 2011 Macbook Air, without
+setting up a dual boot OS X - GNU/Linux system. I don't guarantee that
+everything here will work perfectly on other Macbook Air models. However, I
+suspect that most of this should work for other Macbooks as well.
+
+This guide is up to date as of August 2015, using Debian 8.1.
+
+Useful References
+=================
+
+ArchWiki: https://wiki.archlinux.org/index.php/MacBook
+DebianWiki: https://wiki.debian.org/InstallingDebianOn/Apple
+
+Installation
+============
+
+The Macbook Air doesn't play well with most bootable flash drives (absent
+installing a custom bootloader with OS X still on the computer, such as rEFIT),
+so it's much easier to install from a CD/DVD. For the Macbok Air, you'll have
+to use an external CD/DVD drive. To force the Macbook to boot from the CD/DVD
+drive, hold "C" during the boot sequence.
+
+The hardware is well-supported out of the box, with the exception of the
+wireless card (which requires non-free firmware that isn't included with Debian
+images). The easiest solution to this is to have a separate USB stick available
+with the appropriate wireless card firmware package to be used during
+installation.  The specific package you'll need is the `firmware-brcm80211`
+package, which can be found at:
+
+  https://packages.debian.org/search?keywords=firmware-brcm80211
+
+At least for me, I needed to have an internet connection for GRUB installation,
+otherwise you'll get a grub-pc install error, and the system won't be
+bootable. You can either use the USB stick with the wireless firmware method
+discussed above, or use a USB-ethernet adapter.
+
+Also, I had much better luck with the command-line based install than the live
+CD install. Not sure why.
+
+Dual booting Debian with OS X is a much messier situation than single booting
+Debian alone. Setting up a dual boot system is outside of the scope of this
+guide.
+
+Other notes
+===========
+I haven't tried connecting the Macbook Air to an external display.
+
+Keyboard configuration
+======================
+
+The default Macbook keyboard is not particularly suitable for development,
+etc. on Debian. This is the custom keyboard configuration I use, using
+setxkbmap:
+
+Caps Lock -> Escape, Swap alt (option) and super (command) keys:
+
+  setxkbmap -rules "evdev" -layout "us" -option "caps:escape" -option
+  "altwin:swap_alt_win"
+
+To swap the function lock for the Fn keys, use:
+
+  sudo bash -c "echo 2 > /sys/module/hid_apple/parameters/fnmode"
+
+Note: You have to include `bash -C` because the output redirection ">" is done
+by the shell, not by ``echo``. You have to login as root (or run a bash string)
+with sudo in order to get the pipe to work correctly, otherwise you get a
+permissions error.
+
+General notes on using setxkbmap:
+
+* To reset the key settings, run:
+
+  setxkbmap -layout "us"
+
+* To look at all the options for setxkbmap, see (or grep) the file:
+
+  /usr/share/X11/xkb/rules/base.lst

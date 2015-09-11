@@ -76,8 +76,11 @@ Software Packages
   meld
   mercurial
   geany
-  texlive-full
   scons
+  valgrind
+  kcacheconfig
+  gprof
+  texlive-full
 
 * Personal
 
